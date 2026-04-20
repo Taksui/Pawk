@@ -54,7 +54,7 @@ src/
 
 ## 🗺️ Roadmap
 - [x] Phase 1 — Map + Pin dropping
-- [ ] Phase 2 — Firebase + Image upload
+- [x] Phase 2 — Firebase + Cloudinary image upload + Pin info cards
 - [ ] Phase 3 — AI dog detection
 - [ ] Phase 4 — Dog recognition via embeddings
 
