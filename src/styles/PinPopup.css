@@ -1,0 +1,15 @@
+.notes-input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  resize: none;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: #f4a435;
+}

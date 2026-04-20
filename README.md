@@ -1,4 +1,4 @@
-# 🐾 PawMap
+# 🐾 Pawk
 
 > A web app to map, track, and identify street dogs using Maps and AI.
 

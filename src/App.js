@@ -11,7 +11,7 @@ function App() {
         <h1>🐾 PawMap</h1>
         <span className="counter">🐶 Dogs spotted: {pinCount}</span>
       </div>
-      <MapView onPinAdded={() => setPinCount((c) => c + 1)} />
+      <MapView onPinAdded={(count) => setPinCount(count)} />
     </div>
   );
 }
