@@ -1,15 +1,32 @@
-.notes-input {
+.btn-check {
   width: 100%;
   padding: 10px;
-  border: 2px solid #eee;
+  border: 2px solid #4a90e2;
   border-radius: 8px;
-  font-size: 0.9rem;
-  resize: none;
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
+  background: white;
+  color: #4a90e2;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.95rem;
 }
 
-.notes-input:focus {
-  outline: none;
-  border-color: #f4a435;
+.btn-check:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ai-result {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.ai-result.success {
+  background: #e6f9ec;
+  color: #2e7d32;
+}
+
+.ai-result.fail {
+  background: #fdecea;
+  color: #c62828;
 }

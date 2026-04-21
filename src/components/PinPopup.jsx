@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { detectDog } from "../services/dogDetection";
 import "../styles/PinPopup.css";
 
 function PinPopup({ onSave, onCancel }) {
@@ -6,13 +7,24 @@ function PinPopup({ onSave, onCancel }) {
   const [preview, setPreview] = useState(null);
   const [notes, setNotes] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
+  const [checking, setChecking] = useState(false);
 
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
       setPreview(URL.createObjectURL(file));
+      setAiResult(null); // reset result on new image
     }
+  }
+
+  async function handleCheckImage() {
+    if (!image) return;
+    setChecking(true);
+    const result = await detectDog(image);
+    setAiResult(result);
+    setChecking(false);
   }
 
   async function handleSave() {
@@ -42,11 +54,29 @@ function PinPopup({ onSave, onCancel }) {
         />
 
         {preview && (
-          <img
-            src={preview}
-            alt="Preview"
-            className="preview-img"
-          />
+          <img src={preview} alt="Preview" className="preview-img" />
+        )}
+
+        {/* AI Check Button */}
+        {image && !aiResult && (
+          <button
+            onClick={handleCheckImage}
+            className="btn-check"
+            disabled={checking}
+          >
+            {checking ? "Checking with AI... 🤖" : "🔍 Check if it's a dog"}
+          </button>
+        )}
+
+        {/* AI Result */}
+        {aiResult && (
+          <div className={`ai-result ${aiResult.is_dog ? "success" : "fail"}`}>
+            {aiResult.is_dog ? (
+              <>✅ Dog detected: <strong>{aiResult.label}</strong> ({aiResult.confidence}%)</>
+            ) : (
+              <>❌ No dog detected in this photo</>
+            )}
+          </div>
         )}
 
         <div className="popup-buttons">
