@@ -55,8 +55,35 @@ src/
 ## 🗺️ Roadmap
 - [x] Phase 1 — Map + Pin dropping
 - [x] Phase 2 — Firebase + Cloudinary image upload + Pin info cards
-- [ ] Phase 3 — AI dog detection
+- [x] Phase 3 — Python AI backend with MobileNet dog detection
 - [ ] Phase 4 — Dog recognition via embeddings
+
+## 🐍 Running the AI Backend (Phase 3)
+
+1. Navigate to the backend folder
+```bash
+   cd backend
+```
+
+2. Create and activate virtual environment
+```bash
+   python -m venv venv
+   venv\Scripts\activate   # Windows
+   source venv/bin/activate # Mac/Linux
+```
+
+3. Install dependencies
+```bash
+   pip install -r requirements.txt
+```
+
+4. Start the server
+```bash
+   uvicorn main:app --reload
+```
+
+5. API runs at `http://127.0.0.1:8000`
+   - Docs available at `http://127.0.0.1:8000/docs`
 
 ## 👨‍💻 Author
 Made with ❤️ by [DAVE AASHISTH](https://github.com/Taksui)
