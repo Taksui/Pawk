@@ -2,7 +2,6 @@
 
 > A web app to map, track, and identify street dogs using Maps and AI.
 
-![Pawk Banner](./src/assets/banner.png)
 
 ## 🌍 Live Demo
 Coming soon...
