@@ -4,10 +4,15 @@ from PIL import Image
 import torch
 import torchvision.transforms as transforms
 import io
+import numpy as np
+import urllib.request, json
+
+# ── CLIP for embeddings ──────────────────────────────────────────
+from sentence_transformers import SentenceTransformer
+clip_model = SentenceTransformer("clip-ViT-B-32")
 
 app = FastAPI()
 
-# Allow React to talk to this server
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -15,22 +20,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load pretrained MobileNet model (downloads automatically first time)
-model = torch.hub.load(
+# ── MobileNet for dog detection ──────────────────────────────────
+mobilenet = torch.hub.load(
     "pytorch/vision:v0.10.0",
     "mobilenet_v2",
     pretrained=True
 )
-model.eval()
+mobilenet.eval()
 
-# ImageNet labels — we'll use these to detect dogs
 IMAGENET_LABELS_URL = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.json"
-
-import urllib.request, json
 with urllib.request.urlopen(IMAGENET_LABELS_URL) as url:
     LABELS = json.load(url)
 
-# ImageNet has dog breeds from index 151 to 268
 DOG_INDICES = set(range(151, 269))
 
 def preprocess(image: Image.Image):
@@ -45,21 +46,28 @@ def preprocess(image: Image.Image):
     ])
     return transform(image).unsqueeze(0)
 
+# ── In-memory store for embeddings ──────────────────────────────
+# Each entry: { "id": str, "embedding": list[float] }
+saved_embeddings = []
+
+def cosine_similarity(a, b):
+    a, b = np.array(a), np.array(b)
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+# ── Routes ───────────────────────────────────────────────────────
+
 @app.post("/detect")
 async def detect_dog(file: UploadFile = File(...)):
-    # Read and preprocess image
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
     tensor = preprocess(image)
 
-    # Run through AI model
     with torch.no_grad():
-        output = model(tensor)
+        output = mobilenet(tensor)
 
     probabilities = torch.nn.functional.softmax(output[0], dim=0)
     top5 = torch.topk(probabilities, 5)
 
-    # Check if any top result is a dog breed
     is_dog = False
     confidence = 0.0
     label = ""
@@ -75,4 +83,40 @@ async def detect_dog(file: UploadFile = File(...)):
         "is_dog": is_dog,
         "confidence": confidence,
         "label": label if is_dog else "Not a dog",
+    }
+
+
+@app.post("/embed")
+async def embed_and_match(file: UploadFile = File(...), pin_id: str = ""):
+    contents = await file.read()
+    image = Image.open(io.BytesIO(contents)).convert("RGB")
+
+    # Generate embedding using CLIP
+    embedding = clip_model.encode(image).tolist()
+
+    # Compare with saved embeddings
+    best_match_id = None
+    best_score = 0.0
+    THRESHOLD = 0.90  # 90% similar = same dog
+
+    for saved in saved_embeddings:
+        score = cosine_similarity(embedding, saved["embedding"])
+        if score > best_score:
+            best_score = score
+            best_match_id = saved["id"]
+
+    is_match = best_score >= THRESHOLD
+
+    # Save this embedding if it's a new dog
+    if not is_match and pin_id:
+        saved_embeddings.append({
+            "id": pin_id,
+            "embedding": embedding
+        })
+
+    return {
+        "is_match": is_match,
+        "matched_pin_id": best_match_id if is_match else None,
+        "similarity": round(best_score * 100, 2),
+        "embedding": embedding,
     }

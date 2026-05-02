@@ -1,0 +1,207 @@
+/* ── Stats Panel (left) ──────────────────────────────────────── */
+.stats-panel {
+  position: fixed;
+  top: 74px;
+  left: 16px;
+  z-index: 800;
+  width: 200px;
+  background: rgba(18, 18, 28, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideInLeft 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-110%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+.panel-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 250, 0.28);
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255, 255, 250, 0.88);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 250, 0.42);
+  font-weight: 400;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.hot-zone-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.hot-zone-label {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 250, 0.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hot-zone-badge {
+  padding: 2px 9px;
+  border-radius: 50px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(245, 158, 11, 0.85);
+  flex-shrink: 0;
+}
+
+.activity-bar {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.activity-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f59e0b, #2dd4bf);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Control Panel (bottom right, shifted LEFT of zoom) ──────── */
+/* Google Maps zoom sits at right:10px; we go right:70px to avoid overlap */
+.control-panel {
+  position: fixed;
+  bottom: 120px;        /* above zoom controls */
+  right: 68px;          /* clear of the default Google zoom widget */
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  animation: slideInRight 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.heatmap-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(18, 18, 28, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: rgba(255, 255, 250, 0.55);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.heatmap-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(28, 28, 42, 0.88);
+  color: rgba(255, 255, 250, 0.80);
+  transform: translateY(-1px);
+}
+
+.heatmap-toggle.active {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.10);
+  color: #f59e0b;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 14px rgba(245,158,11,0.12);
+}
+
+.heatmap-toggle.active:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35), 0 0 20px rgba(245,158,11,0.18);
+}
+
+.toggle-icon {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 200ms ease;
+}
+
+.toggle-icon.off { background: rgba(255,255,255,0.20); }
+.toggle-icon.on  {
+  background: #f59e0b;
+  box-shadow: 0 0 7px rgba(245, 158, 11, 0.6);
+}
+
+.hint-text {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 250, 0.25);
+  text-align: right;
+  padding-right: 2px;
+}
+
+/* ── Map click hint (bottom centre) ─────────────────────────── */
+.map-hint {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 800;
+  padding: 8px 18px;
+  border-radius: 50px;
+  background: rgba(18, 18, 28, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  font-size: 0.77rem;
+  color: rgba(255, 255, 250, 0.45);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: fadeInUp 0.5s var(--ease) 1.2s both;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeInUp {
+  from { transform: translateX(-50%) translateY(10px); opacity: 0; }
+  to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .stats-panel    { display: none; }
+  .control-panel  { bottom: 24px; right: 16px; }
+  .map-hint       { display: none; }
+}

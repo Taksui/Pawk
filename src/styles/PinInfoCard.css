@@ -1,80 +1,203 @@
+/* ── Overlay ─────────────────────────────────────────────────── */
 .card-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(6, 6, 14, 0.60);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: overlayIn 0.2s ease;
 }
 
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
 .info-card {
-  background: white;
-  border-radius: 16px;
-  width: 320px;
+  width: 330px;
+  background: rgba(18, 18, 28, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  animation: cardIn 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 
+@keyframes cardIn {
+  from { transform: scale(0.88) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);       opacity: 1; }
+}
+
+/* ── Close ───────────────────────────────────────────────────── */
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 12px;
-  background: white;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
+  top: 12px; right: 12px;
+  z-index: 10;
+  width: 28px; height: 28px;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255,255,250,0.55);
+  font-size: 0.78rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: all 180ms ease;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,250,0.85);
+  transform: scale(1.08);
+}
+
+/* ── Image ───────────────────────────────────────────────────── */
+.card-img-gradient { position: relative; }
+
+.card-img-gradient::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, rgba(18,18,28,0.95));
+  pointer-events: none;
 }
 
 .card-img {
   width: 100%;
-  height: 200px;
+  height: 195px;
   object-fit: cover;
+  display: block;
 }
 
 .no-image {
   width: 100%;
-  height: 140px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff8f0;
-  font-size: 1.1rem;
-  color: #aaa;
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,250,0.18);
+  font-size: 0.82rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
+/* ── Body ────────────────────────────────────────────────────── */
 .card-body {
-  padding: 16px;
+  padding: 16px 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
 }
 
 .card-body h3 {
-  font-size: 1.1rem;
-  color: #333;
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255,255,250,0.88);
+  letter-spacing: -0.15px;
 }
 
 .card-notes {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.84rem;
+  color: rgba(255,255,250,0.52);
+  line-height: 1.55;
 }
 
 .card-notes.muted {
-  color: #bbb;
+  color: rgba(255,255,250,0.22);
   font-style: italic;
+}
+
+/* ── Source badge ────────────────────────────────────────────── */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.70rem;
+  padding: 3px 9px;
+  border-radius: 50px;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.source-reddit {
+  background: rgba(251,146,60,0.10);
+  color: rgba(251,146,60,0.88);
+  border: 1px solid rgba(251,146,60,0.20);
+}
+
+.source-inaturalist {
+  background: rgba(167,139,250,0.10);
+  color: rgba(167,139,250,0.88);
+  border: 1px solid rgba(167,139,250,0.20);
+}
+
+.source-user {
+  background: rgba(245,158,11,0.10);
+  color: rgba(245,158,11,0.88);
+  border: 1px solid rgba(245,158,11,0.20);
+}
+
+/* ── Source link ─────────────────────────────────────────────── */
+.source-link {
+  font-size: 0.75rem;
+  color: rgba(45,212,191,0.60);
+  text-decoration: none;
+  transition: color 180ms ease;
+  width: fit-content;
+}
+
+.source-link:hover { color: rgba(45,212,191,0.90); }
+
+/* ── Meta ────────────────────────────────────────────────────── */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .card-date,
 .card-coords {
-  font-size: 0.8rem;
-  color: #999;
+  font-size: 0.74rem;
+  color: rgba(255,255,250,0.24);
+}
+
+/* ── Recognition ─────────────────────────────────────────────── */
+.card-match {
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(251,146,60,0.07);
+  border: 1px solid rgba(251,146,60,0.16);
+  font-size: 0.78rem;
+  color: rgba(251,146,60,0.85);
+  line-height: 1.6;
+}
+
+.card-new {
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(45,212,191,0.07);
+  border: 1px solid rgba(45,212,191,0.16);
+  font-size: 0.78rem;
+  color: rgba(45,212,191,0.85);
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .info-card {
+    width: calc(100vw - 24px);
+    border-radius: 18px;
+  }
 }

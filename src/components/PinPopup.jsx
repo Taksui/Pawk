@@ -3,9 +3,9 @@ import { detectDog } from "../services/dogDetection";
 import "../styles/PinPopup.css";
 
 function PinPopup({ onSave, onCancel }) {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [notes, setNotes] = useState("");
+  const [image, setImage]       = useState(null);
+  const [preview, setPreview]   = useState(null);
+  const [notes, setNotes]       = useState("");
   const [uploading, setUploading] = useState(false);
   const [aiResult, setAiResult] = useState(null);
   const [checking, setChecking] = useState(false);
@@ -15,7 +15,7 @@ function PinPopup({ onSave, onCancel }) {
     if (file) {
       setImage(file);
       setPreview(URL.createObjectURL(file));
-      setAiResult(null); // reset result on new image
+      setAiResult(null);
     }
   }
 
@@ -36,61 +36,55 @@ function PinPopup({ onSave, onCancel }) {
   return (
     <div className="popup-overlay">
       <div className="popup-box">
-        <h2>🐶 Dog Sighting</h2>
-        <p>Add details about this sighting</p>
+
+        <div className="popup-header">
+          <h2>🐶 Dog Sighting</h2>
+          <p className="popup-sub">Mark a new sighting on the map</p>
+        </div>
 
         <textarea
-          placeholder="Notes (e.g. injured, friendly, near temple...)"
+          className="notes-input"
+          placeholder="Notes — injured, friendly, near temple..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="notes-input"
           rows={3}
         />
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
+        <label className="file-label">
+          📷&nbsp; {image ? image.name : "Upload a photo (optional)"}
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+        </label>
 
         {preview && (
           <img src={preview} alt="Preview" className="preview-img" />
         )}
 
-        {/* AI Check Button */}
         {image && !aiResult && (
           <button
-            onClick={handleCheckImage}
             className="btn-check"
+            onClick={handleCheckImage}
             disabled={checking}
           >
-            {checking ? "Checking with AI... 🤖" : "🔍 Check if it's a dog"}
+            {checking ? "Analyzing dog... 🧠🐶" : "🔍 Verify with AI"}
           </button>
         )}
 
-        {/* AI Result */}
         {aiResult && (
           <div className={`ai-result ${aiResult.is_dog ? "success" : "fail"}`}>
-            {aiResult.is_dog ? (
-              <>✅ Dog detected: <strong>{aiResult.label}</strong> ({aiResult.confidence}%)</>
-            ) : (
-              <>❌ No dog detected in this photo</>
-            )}
+            {aiResult.is_dog
+              ? <>✅ Dog detected — <strong>{aiResult.label}</strong> ({aiResult.confidence}% confidence)</>
+              : <>❌ No dog detected in this image</>
+            }
           </div>
         )}
 
         <div className="popup-buttons">
-          <button onClick={onCancel} className="btn-cancel">
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            className="btn-save"
-            disabled={uploading}
-          >
-            {uploading ? "Saving... 🐾" : "Save Sighting ✅"}
+          <button className="btn-cancel" onClick={onCancel}>Cancel</button>
+          <button className="btn-save" onClick={handleSave} disabled={uploading}>
+            {uploading ? "Saving... 🐾" : "Save Sighting"}
           </button>
         </div>
+
       </div>
     </div>
   );
