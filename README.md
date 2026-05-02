@@ -1,26 +1,39 @@
 # 🐾 Pawk
 
-> A web app to map, track, and identify street dogs using Maps and AI.
+> Pawk is a real-time street dog mapping platform designed to help identify, track, and respond to injured or vulnerable dogs in urban environments.
+
+> By combining crowdsourced reports with AI-based image recognition, the platform enables users to detect, match, and monitor individual street dogs across locations.
 
 
 ## 🌍 Live Demo
-Coming soon...
+Currently optimized for local demo. Deployment in progress.
+
+## ✨ Key Highlights
+
+- 📍 **Interactive map-based reporting** — Drop pins to log street dog sightings
+- 🐶 **AI-powered dog detection** — Verifies uploaded images before saving
+- 🧠 **Dog re-identification** — Matches sightings using embedding-based recognition
+- 🔄 **Live data integration** — Pulls external sightings (iNaturalist + Reddit)
+- 🌡️ **Heatmap visualization** — Identifies high-density dog zones
+- 👤 **User system** — Google Auth + user profiles
 
 ## 🚀 Features
-- 🗺️ Interactive Google Maps integration
-- 📍 Click to drop pins and mark dog sightings
-- 🐶 Real-time dog sighting counter
-- 🔥 Firebase backend for saving sightings (Phase 2)
-- 🤖 AI-powered dog detection (Phase 3)
-- 🧠 Dog recognition using embeddings (Phase 4)
+
+- 🗺️ Google Maps integration with real-time markers  
+- 📸 Image upload with Cloudinary storage  
+- 🤖 Backend AI pipeline for detection + recognition  
+- 🔥 Firebase for real-time database and sync  
+- 🧭 External data ingestion pipeline (Python backend)  
+- 📊 Dynamic UI with heatmaps and analytics overlays  
 
 ## 🛠️ Tech Stack
 | Layer | Technology |
 |-------|-----------|
 | Frontend | React |
-| Maps | Google Maps API |
-| Backend | Firebase |
-| AI | Python (coming soon) |
+| Maps | Google Maps JavaScript API |
+| Backend | Firebase (Firestore, Auth) |
+| AI | Python (FastAPI), MobileNet, Embedding-based Recognition |
+| Storage | Cloudinary |
 
 ## 📁 Project Structure
 src/
@@ -31,12 +44,22 @@ src/
 ├── assets/         # Images and icons
 └── styles/         # CSS files
 
+## 🌱 Why This Matters
+
+Street dogs in urban environments often go unnoticed when injured or in distress.
+
+Pawk aims to:
+- Enable faster, community-driven reporting
+- Track repeat sightings of the same dog across locations
+- Provide data-backed insights into high-density areas
+- Support more structured and scalable rescue efforts
+
 ## ⚙️ Setup Instructions
 
 1. Clone the repo
 ```bash
-   git clone https://github.com/YOUR_USERNAME/pawmap.git
-   cd pawmap
+   git clone https://github.com/YOUR_USERNAME/pawk.git
+   cd pawk
 ```
 
 2. Install dependencies
@@ -49,15 +72,9 @@ src/
 4. Start the app
 ```bash
    npm start
-```
+``` 
 
-## 🗺️ Roadmap
-- [x] Phase 1 — Map + Pin dropping
-- [x] Phase 2 — Firebase + Cloudinary image upload + Pin info cards
-- [x] Phase 3 — Python AI backend with MobileNet dog detection
-- [ ] Phase 4 — Dog recognition via embeddings
-
-## 🐍 Running the AI Backend (Phase 3)
+## 🐍 Running the AI Backend
 
 1. Navigate to the backend folder
 ```bash
@@ -87,73 +104,3 @@ src/
 ## 👨‍💻 Author
 Made with ❤️ by [DAVE AASHISTH](https://github.com/Taksui)
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
